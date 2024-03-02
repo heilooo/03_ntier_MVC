@@ -5,18 +5,18 @@ using ntire.DataAccess;
 
 namespace app6_web.Controllers
 {
-    public class CategoryController : Controller
+    public class CoverTypeController : Controller
     {
         private readonly IUnitOfWork _db;
-        public CategoryController(IUnitOfWork db)
+        public CoverTypeController(IUnitOfWork db)
         {
             _db = db;
         }
         //index
         public IActionResult Index()
         {
-            IEnumerable<Category> CtaegoryList = _db.Category.GetAll();
-            return View(CtaegoryList);
+            IEnumerable<CoverType> CoverTypeList = _db.CoverType.GetAll();
+            return View(CoverTypeList);
         }
         //Get
         public IActionResult Create()
@@ -25,16 +25,11 @@ namespace app6_web.Controllers
         }
         //post
         [HttpPost]
-        public IActionResult Create(Category obj)
+        public IActionResult Create(CoverType obj)
         {
-            if (obj.Name == obj.DisplayOrder)
-            {
-                ModelState.AddModelError("Name", "مقدار هر دو فیلد نباید یکی باشد");
-
-            }
             if (ModelState.IsValid)
             {
-                _db.Category.Add(obj);
+                _db.CoverType.Add(obj);
                 _db.Save();
                 TempData["success"] = "دسته با موفقیت ایجاد شد";
                 return RedirectToAction("Index");
@@ -51,26 +46,22 @@ namespace app6_web.Controllers
                 return NotFound();
             }
             //var categoryFromDb = _db.Categories.Find(id);
-            var categoryFirst = _db.Category.GetFirstOrDefault(c => c.Id == id);
+            var coverTypeFirst = _db.CoverType.GetFirstOrDefault(c => c.Id == id);
             //var categorySingel = _db.Categories.SingleOrDefault(c => c.Id == id);
-            if (categoryFirst == null)
+            if (coverTypeFirst == null)
             {
                 return NotFound();
             }
-            return View(categoryFirst);
+            return View(coverTypeFirst);
         }
         //post
         [HttpPost]
-        public IActionResult Edit(Category obj)
+        public IActionResult Edit(CoverType obj)
         {
-            if (obj.Name == obj.DisplayOrder)
-            {
-                ModelState.AddModelError("Name", "مقدار هر دو قیلد نباید یکی باشد");
-
-            }
+            
             if (ModelState.IsValid)
             {
-                _db.Category.Update(obj);
+                _db.CoverType.Update(obj);
                 _db.Save();
                 TempData["success"] = "دسته با موفقیت  ویرایش شد";
                 return RedirectToAction("Index");
@@ -86,27 +77,25 @@ namespace app6_web.Controllers
                 return NotFound();
             }
             //var categoryFromDb = _db.Categories.Find(id);
-            var categoryFirst = _db.Category.GetFirstOrDefault(c => c.Id == id);
+            var coverTypeFirst = _db.CoverType.GetFirstOrDefault(c => c.Id == id);
             //var categorySingel = _db.Categories.SingleOrDefault(c => c.Id == id);
-            if (categoryFirst == null)
+            if (coverTypeFirst == null)
             {
                 return NotFound();
             }
-            return View(categoryFirst);
+            return View(coverTypeFirst);
         }
         //post
         [HttpPost]
         public IActionResult DeletePost(int? id)
         {
 
-            var obj = _db.Category.GetFirstOrDefault(c => c.Id == id); ;
+            var obj = _db.CoverType.GetFirstOrDefault(c => c.Id == id); ;
 
-            _db.Category.Remove(obj);
+            _db.CoverType.Remove(obj);
             _db.Save();
             TempData["success"] = "دسته با موفقیت  حذف شد";
             return RedirectToAction("Index");
-
-
         }
 
     }
